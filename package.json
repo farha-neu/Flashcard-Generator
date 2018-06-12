@@ -1,0 +1,23 @@
+{
+  "name": "flashcard-generator",
+  "version": "1.0.0",
+  "description": "In this week's assignment, you will create a basic, command-line flashcard application. Your flashcard objects should be created using constructors. There are two types of flashcards to make:",
+  "main": "BasicCard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farha-neu/Flashcard-Generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/farha-neu/Flashcard-Generator/issues"
+  },
+  "homepage": "https://github.com/farha-neu/Flashcard-Generator#readme",
+  "dependencies": {
+    "chalk-pipe": "^1.2.0",
+    "inquirer": "^6.0.0"
+  }
+}
