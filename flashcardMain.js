@@ -3,20 +3,25 @@ var chalkPipe = require("chalk-pipe");
 var BasicCard = require("./BasicCard");
 var ClozeCard = require("./ClozeCard");
 
-var firstQ = new BasicCard("What's the git command that downloads your repository from GitHub to your computer?","git clone");
-var secondQ = new BasicCard("What's the opposite of git clone, instead of downloading your code from GitHub, uploads your changes and code back to GitHub?","git push");
-var thirdQ = new ClozeCard("git status command will check the state of your local git repository since your last commit.","git status");
-var fourthQ = new BasicCard("How do you stage files for a commit?","git add");
-var fifthQ = new ClozeCard("You save the current state of your code into the git version control using git commit.","git commit");
-// var sixthQ = new BasicCard("What's a shortcut to staging all the changes you have?","git add .");
-// var seventhQ = new BasicCard("How do you supply a commit message to a commit?","git commit -m \"I\'m coding\"");
-// var eighthQ = new BasicCard("What comes first, staging with git add . or committing with git commit?","staging");
-// var ninethQ = new BasicCard("We've just created a new file called index.html. Which of the following will stage this one file so we can commit it?","git add index.html");
-// var tenthQ = new BasicCard("Which command will stage your entire directory and every non-empty directory inside your current directory?","git add .");
-// var eleventhQ = new ClozeCard("git add . will stage your entire directory and every non-empty directory inside your current directory.","non-empty");
+//10 question objects - basic and cloze cards combined
+var firstQ = new BasicCard("Which is the biggest state in United States?","Alaska");
+var secondQ = new ClozeCard("The Mt. Rushmore Monument is in South Dakota","South Dakota");
+var thirdQ = new ClozeCard("The USA is a federal union of 50(number) independent states","50");
+var fourthQ = new BasicCard("Which is the most recent state to join the union was?","Hawaii");
+var fifthQ = new ClozeCard("George Washington was the first president of USA","George Washington");
+var sixthQ = new BasicCard("Who was the second person to walk on the moon?","Buzz Aldrin");
+var seventhQ = new ClozeCard("The smallest city in the USA in terms of area is Rhode Island","Rhode Island");
+var eighthQ = new ClozeCard("You can visit Monument Valley in Arizona.","Arizona");
+var ninethQ = new BasicCard("In which year, the declaration of independence of USA was signed?","1776");
+var tenthQ = new ClozeCard("Pearl Harbor attack occured in the year of 1941","1941");
 
-console.log(thirdQ.text,thirdQ.cloze);
-var questionArray = [firstQ,secondQ,thirdQ,fourthQ,fifthQ];
+
+var questionArray = [firstQ,secondQ,thirdQ,fourthQ,fifthQ,sixthQ,seventhQ,eighthQ,ninethQ,tenthQ];
+
+// randomly generate questions 
+function randomQuestionGenerator(){
+    questionArray = questionArray.sort(function() { return 0.5 - Math.random() });
+}
 
 var i = 0;
 var mastered = 0;
@@ -37,17 +42,15 @@ function askQuestion(front,back){
       ];
       
       inquirer.prompt(questions).then(answers => {
-        if(answers["answer"]===back){
-            console.log(back,answers["answer"]);
+        if(answers["answer"].toLowerCase()===back.toLowerCase()){
             console.log(chalkPipe('green')("\nYou are correct!\n"));
             mastered++;
-            console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||");
+            console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||\n");
             recall();
         }
         else{
-            console.log(back,answers["answer"]);
             console.log(chalkPipe('red')("\nWrong Answer!\n"));
-            console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||");
+            console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||\n");
             inquirer
             .prompt([
                 {
@@ -61,9 +64,8 @@ function askQuestion(front,back){
            ])
             .then(answers => {
                 if(answers.nextActivity === "Flip the card?"){
-                    console.log("back"+back);
-                    console.log("\nAnswer: "+back+"\n");
-                    console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||");
+                    console.log(chalkPipe('orange')("\nAnswer: "+back+"\n"));
+                    console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||\n");
                     recall();
                     
                 }
@@ -110,7 +112,14 @@ function recall(){
                 if(answers.next === "Start Over"){
                     i=0;
                     mastered = 0;
-                    askQuestion(questionArray[0].front,questionArray[0].back);    
+                    randomQuestionGenerator();
+                    if(questionArray[0] instanceof BasicCard){
+                        askQuestion(questionArray[0].front,questionArray[0].back);
+                    }
+                    else{
+                        askQuestion(questionArray[0].text,questionArray[0].cloze); 
+                    }
+                      
                 }
                 else{
                     console.log("Program Exited");
@@ -124,14 +133,23 @@ askQuestion(questionArray[0].front,questionArray[0].back);
 
 function cau(ques){
     if(ques instanceof ClozeCard){
-        var text = chalkPipe('magentaBright')("-------------------------------------------------------------------------------------------------------------\n")+
-                        "Question "+(i+1)+". "+ques.search()+"\n"+
-                        chalkPipe('magentaBright')("---------------------------------------------------------------------------------------------------------------\n");
+        // var text = chalkPipe('magentaBright')("-------------------------------------------------------------------------------------------------------------\n")+
+        //                 "Question "+(i+1)+". "+ques.partial+"\n"+
+        //                 chalkPipe('magentaBright')("---------------------------------------------------------------------------------------------------------------\n");
+        var text3 = "Question "+(i+1)+". "+ques.partial;
+        var text2="";
+        for(var j = 0; j <text3.length;j++){
+            text2+=chalkPipe('magentaBright')("-");
+        }
+        var text = text2+"\n"+text3+"\n"+text2+chalkPipe('magentaBright')("--")+"\n";
     }
     else{
-        var text = chalkPipe('magentaBright')("-------------------------------------------------------------------------------------------------------------\n")+
-        "Question "+(i+1)+". "+ques.front+"\n"+
-        chalkPipe('magentaBright')("---------------------------------------------------------------------------------------------------------------\n");
+        var text3 = "Question "+(i+1)+". "+ques.front;
+        var text2="";
+        for(var j = 0; j <text3.length;j++){
+            text2+=chalkPipe('magentaBright')("-");
+        }
+        var text = text2+"\n"+text3+"\n"+text2+chalkPipe('magentaBright')("--")+"\n";
       
     }
     return text+"Type your answer: ";
