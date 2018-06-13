@@ -15,7 +15,7 @@ var fifthQ = new ClozeCard("You save the current state of your code into the git
 // var tenthQ = new BasicCard("Which command will stage your entire directory and every non-empty directory inside your current directory?","git add .");
 // var eleventhQ = new ClozeCard("git add . will stage your entire directory and every non-empty directory inside your current directory.","non-empty");
 
-
+console.log(thirdQ.text,thirdQ.cloze);
 var questionArray = [firstQ,secondQ,thirdQ,fourthQ,fifthQ];
 
 var i = 0;
@@ -38,27 +38,32 @@ function askQuestion(front,back){
       
       inquirer.prompt(questions).then(answers => {
         if(answers["answer"]===back){
-            console.log("Correct!");
+            console.log(back,answers["answer"]);
+            console.log(chalkPipe('green')("\nYou are correct!\n"));
             mastered++;
+            console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||");
             recall();
         }
         else{
-            console.log("Sorry wrong");
+            console.log(back,answers["answer"]);
+            console.log(chalkPipe('red')("\nWrong Answer!\n"));
+            console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||");
             inquirer
             .prompt([
                 {
                 type: 'list',
                 name: 'nextActivity',
-                message: 'Choose your option?',
+                message: 'Do you want to',
                 choices: [
-                    'Try again',
-                    'Flip the card'
+                    'Try again?',
+                    'Flip the card?'
                 ]}
            ])
             .then(answers => {
-                //console.log(JSON.stringify(answers, null, '  '));
-                if(answers.nextActivity === "Flip the card"){
-                    console.log("Correct answer: "+back);
+                if(answers.nextActivity === "Flip the card?"){
+                    console.log("back"+back);
+                    console.log("\nAnswer: "+back+"\n");
+                    console.log("|| Cards mastered: "+ mastered+"/"+questionArray.length+" ||");
                     recall();
                     
                 }
@@ -85,10 +90,10 @@ function recall(){
             }  
         }
         else{
-            console.log("Cards mastered: "+ mastered);
             if(mastered === questionArray.length){
-                console.log("Well Done!");
+                console.log(chalkPipe('green')("WELL DONE!"));
             }
+            console.log("\n");
             inquirer
             .prompt([
                 {
@@ -104,10 +109,11 @@ function recall(){
                 //console.log(JSON.stringify(answers, null, '  '));
                 if(answers.next === "Start Over"){
                     i=0;
+                    mastered = 0;
                     askQuestion(questionArray[0].front,questionArray[0].back);    
                 }
                 else{
-                    console.log("Bye");
+                    console.log("Program Exited");
                     return;   
                 }
             });
@@ -118,15 +124,15 @@ askQuestion(questionArray[0].front,questionArray[0].back);
 
 function cau(ques){
     if(ques instanceof ClozeCard){
-        var text = "---------------------------------------------------------------------------------------------------------\n"+
-                                  "Question"+(i+1)+". "+ques.search()+"\n"+
-                   "-----------------------------------------------------------------------------------------------------------\n";
-        return text;
+        var text = chalkPipe('magentaBright')("-------------------------------------------------------------------------------------------------------------\n")+
+                        "Question "+(i+1)+". "+ques.search()+"\n"+
+                        chalkPipe('magentaBright')("---------------------------------------------------------------------------------------------------------------\n");
     }
     else{
-        var text = "---------------------------------------------------------------------------------------------------------\n"+
-                              "Question"+(i+1)+". "+ques.front+"\n"+
-                   "-----------------------------------------------------------------------------------------------------------\n";
-        return text;
+        var text = chalkPipe('magentaBright')("-------------------------------------------------------------------------------------------------------------\n")+
+        "Question "+(i+1)+". "+ques.front+"\n"+
+        chalkPipe('magentaBright')("---------------------------------------------------------------------------------------------------------------\n");
+      
     }
+    return text+"Type your answer: ";
 }
