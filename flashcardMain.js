@@ -48,13 +48,13 @@ function askQuestion(answer){
       ];     
       inquirer.prompt(questions).then(answers => {
         if(answers["answer"].toLowerCase()===answer.toLowerCase()){
-            console.log(chalkPipe('green')("\nYou are correct!\n"));
+            console.log(chalkPipe('greenBright')("\nYou are correct!\n"));
             mastered++;
             console.log("*Cards mastered: "+ mastered+"/"+questionArray.length+"*\n");
             recall();
         }
         else{
-            console.log(chalkPipe('red')("\nWrong Answer!\n"));
+            console.log(chalkPipe('redBright')("\nWrong Answer!\n"));
             console.log("*Cards mastered: "+ mastered+"/"+questionArray.length+"*\n");
             promptAfterWrongAns(answer);
         }
@@ -93,7 +93,7 @@ function recall(){
         }
         else{
             if(mastered === questionArray.length){
-                console.log(chalkPipe('green')("WELL DONE!!\nYou just mastered all "+questionArray.length+" cards!"));
+                console.log(chalkPipe('greenBright')("WELL DONE!!\nYou just mastered all "+questionArray.length+" cards!"));
             }
             else{
                 console.log("Nice Work!\nYou just studied "+questionArray.length+" cards");
@@ -157,8 +157,8 @@ function displayQuestion(question){
     }
     var separator = "";
     for(var j = 0; j < text.length; j++){
-        separator+=chalkPipe('magentaBright')("-");
+        separator+=chalkPipe('gray')("-");
     }
-    text = separator+"\n"+text+"\n"+separator+chalkPipe('magentaBright')("--")+"\nType your answer: ";
+    text = separator+"\n"+text+"\n"+separator+chalkPipe('gray')("--")+"\nType your answer: ";
     return text;
 }
