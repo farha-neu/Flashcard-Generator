@@ -4,15 +4,17 @@ var BasicCard = require("./BasicCard");
 var ClozeCard = require("./ClozeCard");
 
 //10 GK question objects - basic and cloze cards combined
+
 var firstQ = new BasicCard("Which is the biggest state in United States?","Alaska");
-var secondQ = new ClozeCard("The Mt. Rushmore Monument is in South Dakota(state).","South Dakota");
-var thirdQ = new ClozeCard("The USA is a federal union of 50(number) independent states.","50");
-var fourthQ = new BasicCard("Which is the most recent state to join the union?","Hawaii");
-var fifthQ = new ClozeCard("George Washington was the first president of USA.","George Washington");
-var sixthQ = new BasicCard("Who was the second person to walk on the moon?","Buzz Aldrin");
-var seventhQ = new ClozeCard("The smallest state in the USA in terms of area is Rhode Island.","Rhode Island");
-var eighthQ = new ClozeCard("Abraham Lincoln was the first president to free the slaves.","Abraham Lincoln");
-var ninethQ = new BasicCard("In which year, the declaration of independence of USA was signed?","1776");
+var secondQ = new BasicCard("Which is the most recent state to join the union?","Hawaii");
+var thirdQ = new BasicCard("Who was the second person to walk on the moon?","Buzz Aldrin");
+var fourthQ = new BasicCard("In which year, the declaration of independence of USA was signed?","1776");
+var fifthQ = new BasicCard("Which president of the USA freed the slaves?","Abraham Lincoln");
+
+var sixthQ = new ClozeCard("The Mt. Rushmore Monument is in South Dakota(state).","South Dakota");
+var seventhQ = new ClozeCard("The USA is a federal union of 50(number) independent states.","50");
+var eighthQ = new ClozeCard("George Washington was the first president of USA.","George Washington");
+var ninethQ = new ClozeCard("The smallest state in the USA in terms of area is Rhode Island.","Rhode Island");
 var tenthQ = new ClozeCard("Pearl Harbor attack occured in the year of 1941.","1941");
 
 
