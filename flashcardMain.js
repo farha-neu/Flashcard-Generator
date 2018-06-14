@@ -5,15 +5,15 @@ var ClozeCard = require("./ClozeCard");
 
 //10 GK question objects - basic and cloze cards combined
 var firstQ = new BasicCard("Which is the biggest state in United States?","Alaska");
-var secondQ = new ClozeCard("The Mt. Rushmore Monument is in South Dakota(state)","South Dakota");
-var thirdQ = new ClozeCard("The USA is a federal union of 50(number) independent states","50");
+var secondQ = new ClozeCard("The Mt. Rushmore Monument is in South Dakota(state).","South Dakota");
+var thirdQ = new ClozeCard("The USA is a federal union of 50(number) independent states.","50");
 var fourthQ = new BasicCard("Which is the most recent state to join the union?","Hawaii");
-var fifthQ = new ClozeCard("George Washington was the first president of USA","George Washington");
+var fifthQ = new ClozeCard("George Washington was the first president of USA.","George Washington");
 var sixthQ = new BasicCard("Who was the second person to walk on the moon?","Buzz Aldrin");
-var seventhQ = new ClozeCard("The smallest state in the USA in terms of area is Rhode Island","Rhode Island");
+var seventhQ = new ClozeCard("The smallest state in the USA in terms of area is Rhode Island.","Rhode Island");
 var eighthQ = new ClozeCard("Abraham Lincoln was the first president to free the slaves.","Abraham Lincoln");
 var ninethQ = new BasicCard("In which year, the declaration of independence of USA was signed?","1776");
-var tenthQ = new ClozeCard("Pearl Harbor attack occured in the year of 1941","1941");
+var tenthQ = new ClozeCard("Pearl Harbor attack occured in the year of 1941.","1941");
 
 
 var questionArray = [firstQ,secondQ,thirdQ,fourthQ,fifthQ,sixthQ,seventhQ,eighthQ,ninethQ,tenthQ];
@@ -28,7 +28,7 @@ var i = 0;
 //number of cards mastered
 var mastered = 0;
 
-function askQuestion(front,back){
+function askQuestion(answer){
     var questions = [
         {
           type: 'input',
@@ -43,7 +43,7 @@ function askQuestion(front,back){
         }
       ];     
       inquirer.prompt(questions).then(answers => {
-        if(answers["answer"].toLowerCase()===back.toLowerCase()){
+        if(answers["answer"].toLowerCase()===answer.toLowerCase()){
             console.log(chalkPipe('green')("\nYou are correct!\n"));
             mastered++;
             console.log("*Cards mastered: "+ mastered+"/"+questionArray.length+"*\n");
@@ -52,12 +52,12 @@ function askQuestion(front,back){
         else{
             console.log(chalkPipe('red')("\nWrong Answer!\n"));
             console.log("*Cards mastered: "+ mastered+"/"+questionArray.length+"*\n");
-            promptAfterWrongAns(front,back);
+            promptAfterWrongAns(answer);
         }
       });
 }
 
-function promptAfterWrongAns(front,back){
+function promptAfterWrongAns(answer){
     inquirer
     .prompt([
         {
@@ -71,13 +71,13 @@ function promptAfterWrongAns(front,back){
    ])
     .then(answers => {
         if(answers.nextActivity === "Flip the card?"){
-            console.log(chalkPipe('orange')("\nAnswer: "+back+"\n"));
+            console.log(chalkPipe('orange')("\nCorrect Answer: "+answer+"\n"));
             console.log("*Cards mastered: "+ mastered+"/"+questionArray.length+"*\n");
             recall();
             
         }
         else{
-            askQuestion(front,back);          
+            askQuestion(answer);          
         }
     });
 }
@@ -120,7 +120,7 @@ function gameOverPrompt(){
                     checkObjectInstance(i);       
                 }
                 else{
-                    console.log("Program Exited");
+                    console.log("See you!");
                     return;   
                 }
             });
@@ -136,10 +136,10 @@ function checkObjectInstance(i){
         console.log("\n~~~~~~~~~~Flash Cards on US General Knowledge~~~~~~~~~~\n");
     }
     if(questionArray[i] instanceof BasicCard){
-        askQuestion(questionArray[i].front,questionArray[i].back);
+        askQuestion(questionArray[i].back);
     }
     else{
-        askQuestion(questionArray[i].text,questionArray[i].cloze); 
+        askQuestion(questionArray[i].cloze); 
     }
 }
 
