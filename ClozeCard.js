@@ -7,7 +7,7 @@ var ClozeCard = function(text,cloze){
       console.log("Error occured");
     }
     else{
-      this.partial = this.text.replace(cloze, "____________"); 
+      this.partial = this.text.replace(cloze, "____________"); //partial text
     }    
 }
 
